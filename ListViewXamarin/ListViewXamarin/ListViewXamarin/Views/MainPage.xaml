@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ListViewXamarin;assembly=ListViewXamarin"
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             x:Class="ListViewXamarin.MainPage">
+
+    <ContentPage.BindingContext>
+        <local:ViewModel x:Name="viewModel"/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Behaviors>
+        <local:Behavior/>
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:IndexConverter x:Key="indexConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout >
+        <syncfusion:SfListView x:Name="ToDoListView" ItemSize="60" IsStickyHeader="True" IsScrollBarVisible="False" ItemsSource="{Binding ToDoList}" DragStartMode="OnHold,OnDragIndicator" SelectionMode="None">
+            <syncfusion:SfListView.DragDropController>
+                <syncfusion:DragDropController UpdateSource="True"/>
+            </syncfusion:SfListView.DragDropController>
+            <syncfusion:SfListView.HeaderTemplate>
+                <DataTemplate>
+                    <Label Text="To do Items" TextColor="PaleVioletRed" BackgroundColor="WhiteSmoke" 
+                           HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                </DataTemplate>
+            </syncfusion:SfListView.HeaderTemplate>
+            <syncfusion:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <Frame HasShadow="True" Padding="0">
+                        <Frame.InputTransparent>
+                            <OnPlatform x:TypeArguments="x:Boolean" Android="True" iOS="False"/>
+                        </Frame.InputTransparent>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="60" />
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="textLabel" Text="{Binding Name}" Grid.Column="0" FontSize="15" TextColor="#333333" VerticalOptions="Center" HorizontalOptions="Start" Margin="5,0,0,0" />
+
+                            <Label Text="{Binding ., Converter={StaticResource indexConverter}, ConverterParameter={x:Reference ToDoListView}}" Grid.Column="1" Margin="5,3,0,0" VerticalOptions="Center" HorizontalOptions="Start" />
+
+                            <syncfusion:DragIndicatorView Grid.Column="2" ListView="{x:Reference ToDoListView}" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Grid Padding="10, 20, 20, 20">
+                                    <Image Source="DragIndicator.png" VerticalOptions="Center" HorizontalOptions="Center" />
+                                </Grid>
+                            </syncfusion:DragIndicatorView>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </syncfusion:SfListView.ItemTemplate>
+        </syncfusion:SfListView>
+    </StackLayout>
+</ContentPage>
