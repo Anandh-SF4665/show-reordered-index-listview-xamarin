@@ -28,7 +28,7 @@ How to show the reordered sorted index in   Xamarin.Forms ListView (SfListView)
 </syncfusion:SfListView>
 
 C#:
-ListView.ItemDragging -= ListView_ItemDragging;
+ListView.ItemDragging += ListView_ItemDragging;
 
 private void ListView_ItemDragging(object sender, ItemDraggingEventArgs e)
 {
